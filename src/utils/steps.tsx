@@ -142,7 +142,7 @@ const TogglingHeadIcon = () => {
 
 const Step2 = () => (
   <g>
-    <StickFigure x={220} y={310} label="me" />
+    <StickFigure x={220} y={310} label="me" mood="happy" hair />
     <g transform="translate(220,228)">
       <TogglingHeadIcon />
     </g>
@@ -212,7 +212,7 @@ const Step4 = () => (
         fontSize="12"
         fontFamily="monospace"
       >
-        Death by...
+        Taken out by...
       </text>
     </motion.g>
   </g>
@@ -304,7 +304,8 @@ const Step6 = () => {
     };
   }, []);
 
-  const mood: "happy" | "surprised" | "terrified" = phase === 0 ? "happy" : phase === 1 ? "surprised" : "terrified";
+  const mood: "happy" | "surprised" | "terrified" =
+    phase === 0 ? "happy" : phase === 1 ? "surprised" : "terrified";
 
   return (
     <g>
@@ -327,20 +328,33 @@ const Step6 = () => {
         <SwimmingFigure x={380} y={268} facing={-1} mood={mood} />
       </motion.g>
 
-      {/* Triggerfish — starts off-screen right, enters on phase 1, flees on phase 2 */}
+      {/* Triggerfish — starts off-screen right, enters on phase 1, floats on phase 2 */}
       <motion.g
         animate={{
-          x: phase === 0 ? 400 : phase === 1 ? -150 : -900,
+          x: phase === 0 ? 400 : phase === 1 ? -150 : -350,
         }}
         transition={{
-          duration: phase === 0 ? 0 : phase === 1 ? 1.5 : 3,
-          ease: phase === 1 ? "easeOut" : "easeIn",
+          duration: phase === 0 ? 0 : phase === 1 ? 1.5 : 2,
+          ease: "easeOut",
         }}
       >
-        <AngryFish x={750} y={275} />
+        <motion.g
+          animate={phase === 2 ? { y: [0, -8, 0, -8, 0] } : { y: 0 }}
+          transition={
+            phase === 2
+              ? { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 2 }
+              : {}
+          }
+        >
+          <AngryFish x={750} y={280} />
+        </motion.g>
       </motion.g>
 
-      <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+      <motion.g
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
         <text
           x="400"
           y="420"
@@ -349,7 +363,7 @@ const Step6 = () => {
           fontSize="14"
           fontFamily="monospace"
         >
-          a triggerfish enters the chat
+          Triggerfish: `Didn't she say I was coming?!`
         </text>
       </motion.g>
     </g>
@@ -359,13 +373,13 @@ const Step6 = () => {
 // ─── Exports ──────────────────────────────────────────────────────────────────
 
 export const LABELS: string[] = [
-  "Step 0 — Swimming with worries",
-  "Step 1 — A brilliant idea",
-  "Step 2 — Pitching the trip",
-  "Step 3 — Another idea forms",
-  "Step 4 — Coconut vs Shark statistics",
-  "Step 5 — The explanation",
-  "Step 6 — Nature disagrees",
+  "Swimming in the ocean, hoping to finally see a shark...",
+  "Got a better idea — let's go to the Maldives, where the sharks live!",
+  "Pitching the trip, hubby is scared of sharks",
+  "Thinking about a solution... Let's convince him with some data!",
+  "Coconut vs Shark statistics, this should convince him... right?",
+  "NOT what  I expected... now scared of fins and fruits. Let's cross fingers!",
+  "PS: he doesn't even know about the triggerfish nesting season waiting for us!",
 ];
 
 export const SCENES: ComponentType[] = [

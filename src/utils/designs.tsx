@@ -222,7 +222,9 @@ export const StickFigure = ({
     <line x1="0" y1="-10" x2="-14" y2="16" stroke="#fff" strokeWidth="2.5" />
     <line x1="0" y1="-10" x2="14" y2="16" stroke="#fff" strokeWidth="2.5" />
     {label && (
-      <text x="0" y="32" textAnchor="middle" fill="#888" fontSize="11">{label}</text>
+      <g transform={`scale(${facing},1)`}>
+        <text x="0" y="32" textAnchor="middle" fill="#888" fontSize="11">{label}</text>
+      </g>
     )}
   </g>
 );
