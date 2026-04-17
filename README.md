@@ -1,16 +1,15 @@
-# React + Vite
+# 🥥 vs 🦈 — Coconut vs Shark
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A data-driven animation to settle the most important argument in any beach holiday planning session.
 
-Currently, two official plugins are available:
+**[🚀 Live demo](https://coconut-vs-shark-stats.vercel.app/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Did you know you're statistically more likely to be killed by a falling coconut than by a shark? My husband didn't believe me either. So I made a slide deck about it.
 
-## React Compiler
+Click through 7 scenes of stick-figure drama, statistical revelation, and a triggerfish that has *opinions*.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React + TypeScript + Vite
+- Framer Motion for animations
+- 100% inline SVG — no images, no regrets
