@@ -68,7 +68,7 @@ export default function SceneManager() {
           x={portrait ? 10 : 20}
           y={4}
           width={portrait ? 380 : 760}
-          height={portrait ? 52 : 28}
+          height={portrait ? 52 : 36}
         >
           <div
             style={{
@@ -77,7 +77,7 @@ export default function SceneManager() {
               fontSize: portrait ? "13px" : "11px",
               fontFamily: "monospace",
               lineHeight: "1.4",
-              padding: "0 8px",
+              padding: portrait ? "0 8px" : "8px 8px 0",
               wordBreak: "break-word",
             }}
           >
