@@ -98,7 +98,7 @@ const Step1 = () => (
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.4, type: "spring" }}
     >
-      <Lightbulb x={280} y={215} />
+      <Lightbulb x={280} y={190} />
     </motion.g>
   </g>
 );
@@ -143,9 +143,11 @@ const TogglingHeadIcon = () => {
 const Step2 = () => (
   <g>
     <StickFigure x={220} y={310} label="me" mood="happy" hair />
-    <g transform="translate(220,228)">
-      <TogglingHeadIcon />
-    </g>
+    <ThoughtBubble x={255} y={170} w={130} h={85}>
+      <g transform="translate(0,-12)">
+        <TogglingHeadIcon />
+      </g>
+    </ThoughtBubble>
     <motion.g
       animate={{ x: [0, -3, 3, -3, 3, 0] }}
       transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
@@ -165,7 +167,7 @@ const Step3 = () => (
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: "spring", delay: 0.2 }}
     >
-      <Lightbulb x={220} y={228} />
+      <Lightbulb x={220} y={203} />
     </motion.g>
     <motion.g
       animate={{ x: [0, -3, 3, -3, 3, 0] }}
@@ -191,28 +193,87 @@ const Step4 = () => (
     </motion.g>
     <motion.g
       initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 0, 1, 0] }}
-      transition={{ delay: 0.9, duration: 0.6 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.9, duration: 0.3 }}
     >
-      <text x="240" y="295" fill="#ff0" fontSize="16">
-        ✦✦✦
-      </text>
+      {/* Orbit center above the head — rx=22 ry=7 gives a flat 3-D halo */}
+      <g transform="translate(220,308)">
+        {/* Star 1 — 0° start */}
+        <motion.text
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#ff0"
+          fontSize="11"
+          animate={{
+            x: [22, 19, 11, 0, -11, -19, -22, -19, -11, 0, 11, 19, 22],
+            y: [0, 4, 6, 7, 6, 4, 0, -4, -6, -7, -6, -4, 0],
+          }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 0.9,
+          }}
+        >
+          ✦
+        </motion.text>
+        {/* Star 2 — 120° start */}
+        <motion.text
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#ff0"
+          fontSize="11"
+          animate={{
+            x: [-11, -19, -22, -19, -11, 0, 11, 19, 22, 19, 11, 0, -11],
+            y: [6, 4, 0, -4, -6, -7, -6, -4, 0, 4, 6, 7, 6],
+          }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 0.9,
+          }}
+        >
+          ✦
+        </motion.text>
+        {/* Star 3 — 240° start */}
+        <motion.text
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#ff0"
+          fontSize="11"
+          animate={{
+            x: [-11, 0, 11, 19, 22, 19, 11, 0, -11, -19, -22, -19, -11],
+            y: [-6, -7, -6, -4, 0, 4, 6, 7, 6, 4, 0, -4, -6],
+          }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 0.9,
+          }}
+        >
+          ✦
+        </motion.text>
+      </g>
     </motion.g>
     <motion.g
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.5, duration: 0.5 }}
     >
-      <BarChart x={490} y={380} />
+      <g transform="translate(455,390) scale(1.4)">
+        <BarChart x={0} y={0} />
+      </g>
       <text
-        x="550"
-        y="200"
+        x="539"
+        y="228"
         textAnchor="middle"
         fill="#aaa"
-        fontSize="12"
+        fontSize="14"
         fontFamily="monospace"
       >
-        Taken out by...
+        Death by...
       </text>
     </motion.g>
   </g>
@@ -351,9 +412,8 @@ const Step6 = () => {
       </motion.g>
 
       <motion.g
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
+        animate={{ opacity: phase >= 1 ? 1 : 0 }}
+        transition={{ duration: 0.6 }}
       >
         <text
           x="400"
@@ -378,7 +438,7 @@ export const LABELS: string[] = [
   "Pitching the trip, hubby is scared of sharks",
   "Thinking about a solution... Let's convince him with some data!",
   "Coconut vs Shark statistics, this should convince him... right?",
-  "NOT what  I expected... now scared of fins and fruits. Let's cross fingers!",
+  "NOT what  I expected... now scared of fins and fruits alike. Let's cross fingers!",
   "PS: he doesn't even know about the triggerfish nesting season waiting for us!",
 ];
 
