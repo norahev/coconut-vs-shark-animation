@@ -6,6 +6,7 @@ export type Mood =
   | "happy"
   | "idea"
   | "afraid"
+  | "surprised"
   | "terrified"
   | "angry"
   | "explaining"
@@ -134,6 +135,18 @@ const Face = ({ mood, scale = 1 }: { mood: Mood; scale?: number }) => {
           <line x1={eyeOff - 3 * s} y1={eyeY - 8 * s} x2={eyeOff + 3 * s} y2={eyeY - 6 * s} stroke="#fff" strokeWidth="1.2" />
         </g>
       );
+    case "surprised":
+      return (
+        <g>
+          {raisedBrows}
+          <circle cx={-eyeOff} cy={eyeY} r={eyeR * 1.6} stroke="#fff" strokeWidth="1" fill="none" />
+          <circle cx={-eyeOff} cy={eyeY} r={eyeR * 0.7} fill="#fff" />
+          <circle cx={eyeOff} cy={eyeY} r={eyeR * 1.6} stroke="#fff" strokeWidth="1" fill="none" />
+          <circle cx={eyeOff} cy={eyeY} r={eyeR * 0.7} fill="#fff" />
+          {/* small "o" mouth */}
+          <ellipse cx="0" cy={mouthY + 1 * s} rx={2.5 * s} ry={2 * s} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
     case "dazed":
       return (
         <g>
@@ -256,6 +269,24 @@ export const Lightbulb = ({ x = 0, y = 0 }: { x?: number; y?: number }) => (
 export const SharkFin = ({ x = 0, y = 0 }: { x?: number; y?: number }) => (
   <g transform={`translate(${x},${y})`}>
     <path d="M0,0 L-8,-26 L8,0 Z" stroke="#fff" strokeWidth="2" fill="none" />
+  </g>
+);
+
+export const Shark = ({ x = 0, y = 0 }: { x?: number; y?: number }) => (
+  <g transform={`translate(${x},${y})`}>
+    {/* body */}
+    <ellipse cx="0" cy="0" rx="28" ry="10" stroke="#fff" strokeWidth="2" fill="none" />
+    {/* dorsal fin */}
+    <path d="M-4,-10 L-12,-30 L10,-10" stroke="#fff" strokeWidth="1.5" fill="none" />
+    {/* tail fins */}
+    <path d="M28,0 L42,-14 L42,14 Z" stroke="#fff" strokeWidth="1.5" fill="none" />
+    {/* pectoral fin */}
+    <path d="M6,10 L10,22 L18,10" stroke="#fff" strokeWidth="1.5" fill="none" />
+    {/* eye */}
+    <circle cx="-16" cy="-3" r="3" stroke="#fff" strokeWidth="1.2" fill="none" />
+    <circle cx="-16" cy="-3" r="1.2" fill="#fff" />
+    {/* teeth / grin */}
+    <path d="M-26,4 L-20,1 L-15,4 L-10,1 L-5,4" stroke="#fff" strokeWidth="1.5" fill="none" />
   </g>
 );
 

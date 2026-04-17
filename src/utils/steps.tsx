@@ -5,7 +5,7 @@ import {
   StickFigure,
   SwimmingFigure,
   Lightbulb,
-  SharkFin,
+  Shark,
   BeachUmbrella,
   ThoughtBubble,
   WavyWater,
@@ -39,12 +39,9 @@ const Step0 = () => (
         strokeWidth="1.5"
         fill="none"
       />
-      <path
-        d="M12,-2 L6,-22 L18,-2 Z"
-        stroke="#fff"
-        strokeWidth="1.5"
-        fill="none"
-      />
+      <g transform="translate(18,-8) scale(0.38)">
+        <Shark />
+      </g>
     </ThoughtBubble>
     <text
       x="400"
@@ -123,7 +120,9 @@ const TogglingHeadIcon = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <SharkFin x={0} y={0} />
+          <g transform="translate(-4,2) scale(0.55)">
+            <Shark />
+          </g>
         </motion.g>
       ) : (
         <motion.g
@@ -283,7 +282,9 @@ const Step5 = () => (
       transition={{ delay: 0.65 }}
     >
       <ThoughtBubble x={620} y={185} w={50} h={36}>
-        <SharkFin x={0} y={-4} />
+        <g transform="translate(-4,-10) scale(0.42)">
+          <Shark />
+        </g>
       </ThoughtBubble>
     </motion.g>
   </g>
@@ -291,49 +292,69 @@ const Step5 = () => (
 
 // ─── Step 6 ───────────────────────────────────────────────────────────────────
 
-const Step6 = () => (
-  <g>
-    <WavyWater y={290} width={900} />
-    <WavyWater y={315} width={900} />
-    <motion.g
-      initial={{ x: 0 }}
-      animate={{ x: -900 }}
-      transition={{ duration: 2, ease: "easeIn", delay: 1.2 }}
-    >
-      <SwimmingFigure x={280} y={270} facing={-1} mood="terrified" hair />
-    </motion.g>
-    <motion.g
-      initial={{ x: 0 }}
-      animate={{ x: -900 }}
-      transition={{ duration: 1.8, ease: "easeIn", delay: 1.0 }}
-    >
-      <SwimmingFigure x={380} y={268} facing={-1} mood="terrified" />
-    </motion.g>
-    <motion.g
-      initial={{ x: 300 }}
-      animate={{ x: -900 }}
-      transition={{ duration: 2.5, ease: "easeIn", delay: 0 }}
-    >
-      <AngryFish x={750} y={275} />
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.3 }}
-    >
-      <text
-        x="400"
-        y="420"
-        textAnchor="middle"
-        fill="#555"
-        fontSize="14"
-        fontFamily="monospace"
+const Step6 = () => {
+  const [phase, setPhase] = useState<0 | 1 | 2>(0);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase(1), 2000);
+    const t2 = setTimeout(() => setPhase(2), 3500);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  const mood: "happy" | "surprised" | "terrified" = phase === 0 ? "happy" : phase === 1 ? "surprised" : "terrified";
+
+  return (
+    <g>
+      <WavyWater y={290} width={900} />
+      <WavyWater y={315} width={900} />
+
+      {/* Girl swimmer */}
+      <motion.g
+        animate={{ x: phase === 2 ? -900 : 0 }}
+        transition={{ duration: 2.5, ease: "easeIn" }}
       >
-        a triggerfish enters the chat
-      </text>
-    </motion.g>
-  </g>
-);
+        <SwimmingFigure x={280} y={270} facing={-1} mood={mood} hair />
+      </motion.g>
+
+      {/* Guy swimmer */}
+      <motion.g
+        animate={{ x: phase === 2 ? -900 : 0 }}
+        transition={{ duration: 2.2, ease: "easeIn" }}
+      >
+        <SwimmingFigure x={380} y={268} facing={-1} mood={mood} />
+      </motion.g>
+
+      {/* Triggerfish — starts off-screen right, enters on phase 1, flees on phase 2 */}
+      <motion.g
+        animate={{
+          x: phase === 0 ? 400 : phase === 1 ? -150 : -900,
+        }}
+        transition={{
+          duration: phase === 0 ? 0 : phase === 1 ? 1.5 : 3,
+          ease: phase === 1 ? "easeOut" : "easeIn",
+        }}
+      >
+        <AngryFish x={750} y={275} />
+      </motion.g>
+
+      <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+        <text
+          x="400"
+          y="420"
+          textAnchor="middle"
+          fill="#555"
+          fontSize="14"
+          fontFamily="monospace"
+        >
+          a triggerfish enters the chat
+        </text>
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Exports ──────────────────────────────────────────────────────────────────
 

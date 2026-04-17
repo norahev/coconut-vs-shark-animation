@@ -4,8 +4,19 @@ import { SCENES, LABELS } from "./utils/steps";
 
 export default function SceneManager() {
   const [step, setStep] = useState(0);
+  const [sceneKey, setSceneKey] = useState(0);
 
-  const advance = () => setStep((s) => Math.min(s + 1, SCENES.length - 1));
+  const advance = () => {
+    if (step < SCENES.length - 1) {
+      setStep((s) => s + 1);
+      setSceneKey((k) => k + 1);
+    }
+  };
+
+  const goToStep = (i: number) => {
+    setStep(i);
+    setSceneKey((k) => k + 1);
+  };
 
   const Scene = SCENES[step];
 
@@ -32,7 +43,7 @@ export default function SceneManager() {
       >
         <AnimatePresence mode="wait">
           <motion.g
-            key={step}
+            key={sceneKey}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -60,6 +71,8 @@ export default function SceneManager() {
             cy="485"
             r="4"
             fill={i === step ? "#fff" : "#444"}
+            style={{ cursor: "pointer" }}
+            onClick={(e) => { e.stopPropagation(); goToStep(i); }}
           />
         ))}
       </svg>
