@@ -21,7 +21,7 @@ const Step0 = () => (
   <g>
     <WavyWater y={260} width={800} />
     <WavyWater y={290} width={800} />
-    <SwimmingFigure x={300} y={245} />
+    <SwimmingFigure x={300} y={245} mood="worried" hair />
     <ThoughtBubble x={260} y={140} w={90} h={55}>
       <circle cx="-24" cy="-10" r="14" stroke="#fff" strokeWidth="1.5" fill="none" />
       <circle cx="-27" cy="-14" r="2" fill="#fff" />
@@ -46,7 +46,7 @@ const Step1 = () => (
     <line x1="360" y1="310" x2="360" y2="320" stroke="#fff" strokeWidth="2" />
     <line x1="340" y1="320" x2="380" y2="320" stroke="#fff" strokeWidth="2" />
     <text x="360" y="282" textAnchor="middle" fill="#fff" fontSize="13" fontFamily="monospace">MALDIVES</text>
-    <StickFigure x={280} y={295} label="her" />
+    <StickFigure x={280} y={295} label="her" mood="idea" hair />
     <motion.g
       initial={{ opacity: 0, scale: 0.4 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -92,7 +92,7 @@ const Step2 = () => (
       animate={{ x: [0, -3, 3, -3, 3, 0] }}
       transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
     >
-      <StickFigure x={480} y={310} facing={-1} label="him" />
+      <StickFigure x={480} y={310} facing={-1} label="him" mood="afraid" />
     </motion.g>
   </g>
 );
@@ -101,7 +101,7 @@ const Step2 = () => (
 
 const Step3 = () => (
   <g>
-    <StickFigure x={220} y={310} label="her" />
+    <StickFigure x={220} y={310} label="her" mood="idea" hair />
     <motion.g
       initial={{ opacity: 0, scale: 0.3 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -113,7 +113,7 @@ const Step3 = () => (
       animate={{ x: [0, -3, 3, -3, 3, 0] }}
       transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
     >
-      <StickFigure x={480} y={310} facing={-1} label="him" />
+      <StickFigure x={480} y={310} facing={-1} label="him" mood="afraid" />
     </motion.g>
   </g>
 );
@@ -123,7 +123,7 @@ const Step3 = () => (
 const Step4 = () => (
   <g>
     <PalmTree x={200} y={390} />
-    <StickFigure x={220} y={375} />
+    <StickFigure x={220} y={375} mood="dazed" hair />
     <motion.g
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -155,7 +155,7 @@ const Step4 = () => (
 
 const Step5 = () => (
   <g>
-    <StickFigure x={220} y={340} label="her" armAngle={-30} />
+    <StickFigure x={220} y={340} label="her" mood="explaining" armAngle={-30} hair />
     <ThoughtBubble x={220} y={200} w={130} h={90}>
       <g transform="translate(-30,10) scale(0.35)">
         <PalmTree x={0} y={0} />
@@ -169,7 +169,7 @@ const Step5 = () => (
       animate={{ x: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <StickFigure x={490} y={340} facing={-1} label="him" armAngle={-50} />
+      <StickFigure x={490} y={340} facing={-1} label="him" mood="angry" armAngle={-50} />
     </motion.g>
     <motion.g
       initial={{ opacity: 0 }}
@@ -202,14 +202,14 @@ const Step6 = () => (
       animate={{ x: -900 }}
       transition={{ duration: 2, ease: "easeIn", delay: 1.2 }}
     >
-      <SwimmingFigure x={280} y={270} facing={-1} />
+      <SwimmingFigure x={280} y={270} facing={-1} mood="terrified" hair />
     </motion.g>
     <motion.g
       initial={{ x: 0 }}
       animate={{ x: -900 }}
       transition={{ duration: 1.8, ease: "easeIn", delay: 1.0 }}
     >
-      <SwimmingFigure x={380} y={268} facing={-1} />
+      <SwimmingFigure x={380} y={268} facing={-1} mood="terrified" />
     </motion.g>
     <motion.g
       initial={{ x: 300 }}

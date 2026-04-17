@@ -1,20 +1,198 @@
 // ─── Shared SVG Primitive Components ─────────────────────────────────────────
 
+export type Mood =
+  | "neutral"
+  | "worried"
+  | "happy"
+  | "idea"
+  | "afraid"
+  | "terrified"
+  | "angry"
+  | "explaining"
+  | "dazed";
+
+// Inline face drawn inside a head circle of radius 12, centred at (0,0)
+const Face = ({ mood, scale = 1 }: { mood: Mood; scale?: number }) => {
+  const s = scale;
+  // eye y position
+  const eyeY = -3 * s;
+  const eyeOff = 4 * s;
+  const eyeR = 1.5 * s;
+
+  const eyes = (
+    <>
+      <circle cx={-eyeOff} cy={eyeY} r={eyeR} fill="#fff" />
+      <circle cx={eyeOff} cy={eyeY} r={eyeR} fill="#fff" />
+    </>
+  );
+
+  // wide eyes for afraid/terrified
+  const wideEyes = (
+    <>
+      <circle cx={-eyeOff} cy={eyeY} r={eyeR * 1.8} stroke="#fff" strokeWidth="1" fill="none" />
+      <circle cx={-eyeOff} cy={eyeY} r={eyeR * 0.8} fill="#fff" />
+      <circle cx={eyeOff} cy={eyeY} r={eyeR * 1.8} stroke="#fff" strokeWidth="1" fill="none" />
+      <circle cx={eyeOff} cy={eyeY} r={eyeR * 0.8} fill="#fff" />
+    </>
+  );
+
+  // X eyes for dazed
+  const xEyes = (
+    <>
+      <line x1={-eyeOff - 2 * s} y1={eyeY - 2 * s} x2={-eyeOff + 2 * s} y2={eyeY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+      <line x1={-eyeOff + 2 * s} y1={eyeY - 2 * s} x2={-eyeOff - 2 * s} y2={eyeY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+      <line x1={eyeOff - 2 * s} y1={eyeY - 2 * s} x2={eyeOff + 2 * s} y2={eyeY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+      <line x1={eyeOff + 2 * s} y1={eyeY - 2 * s} x2={eyeOff - 2 * s} y2={eyeY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+    </>
+  );
+
+  // brow helpers
+  const worriedBrows = (
+    <>
+      <line x1={-eyeOff - 3 * s} y1={eyeY - 5 * s} x2={-eyeOff + 2 * s} y2={eyeY - 7 * s} stroke="#fff" strokeWidth="1.2" />
+      <line x1={eyeOff - 2 * s} y1={eyeY - 7 * s} x2={eyeOff + 3 * s} y2={eyeY - 5 * s} stroke="#fff" strokeWidth="1.2" />
+    </>
+  );
+  const angryBrows = (
+    <>
+      <line x1={-eyeOff - 3 * s} y1={eyeY - 7 * s} x2={-eyeOff + 3 * s} y2={eyeY - 4 * s} stroke="#fff" strokeWidth="1.5" />
+      <line x1={eyeOff - 3 * s} y1={eyeY - 4 * s} x2={eyeOff + 3 * s} y2={eyeY - 7 * s} stroke="#fff" strokeWidth="1.5" />
+    </>
+  );
+  const raisedBrows = (
+    <>
+      <line x1={-eyeOff - 3 * s} y1={eyeY - 7 * s} x2={-eyeOff + 3 * s} y2={eyeY - 8 * s} stroke="#fff" strokeWidth="1.2" />
+      <line x1={eyeOff - 3 * s} y1={eyeY - 8 * s} x2={eyeOff + 3 * s} y2={eyeY - 7 * s} stroke="#fff" strokeWidth="1.2" />
+    </>
+  );
+
+  const mouthY = 4 * s;
+
+  switch (mood) {
+    case "happy":
+      return (
+        <g>
+          {eyes}
+          {/* smile */}
+          <path d={`M${-5 * s},${mouthY} Q0,${mouthY + 5 * s} ${5 * s},${mouthY}`} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    case "idea":
+      return (
+        <g>
+          {raisedBrows}
+          {/* wide open eyes */}
+          <circle cx={-eyeOff} cy={eyeY} r={eyeR * 1.4} fill="#fff" />
+          <circle cx={eyeOff} cy={eyeY} r={eyeR * 1.4} fill="#fff" />
+          {/* open "o" mouth */}
+          <ellipse cx="0" cy={mouthY + 1 * s} rx={3 * s} ry={2.5 * s} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    case "worried":
+      return (
+        <g>
+          {worriedBrows}
+          {eyes}
+          {/* frown */}
+          <path d={`M${-5 * s},${mouthY + 3 * s} Q0,${mouthY} ${5 * s},${mouthY + 3 * s}`} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    case "afraid":
+      return (
+        <g>
+          {worriedBrows}
+          {wideEyes}
+          {/* wavy nervous mouth */}
+          <path d={`M${-5 * s},${mouthY + 1 * s} Q${-2 * s},${mouthY - 1 * s} 0,${mouthY + 1 * s} Q${2 * s},${mouthY + 3 * s} ${5 * s},${mouthY + 1 * s}`} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    case "terrified":
+      return (
+        <g>
+          {angryBrows}
+          {wideEyes}
+          {/* open screaming mouth */}
+          <ellipse cx="0" cy={mouthY + 2 * s} rx={4.5 * s} ry={3.5 * s} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    case "angry":
+      return (
+        <g>
+          {angryBrows}
+          {eyes}
+          {/* flat annoyed mouth */}
+          <line x1={-5 * s} y1={mouthY + 2 * s} x2={5 * s} y2={mouthY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+        </g>
+      );
+    case "explaining":
+      return (
+        <g>
+          {eyes}
+          {/* slight confident smile */}
+          <path d={`M${-4 * s},${mouthY} Q0,${mouthY + 4 * s} ${4 * s},${mouthY}`} stroke="#fff" strokeWidth="1.2" fill="none" />
+          {/* one raised brow for knowing look */}
+          <line x1={eyeOff - 3 * s} y1={eyeY - 8 * s} x2={eyeOff + 3 * s} y2={eyeY - 6 * s} stroke="#fff" strokeWidth="1.2" />
+        </g>
+      );
+    case "dazed":
+      return (
+        <g>
+          {xEyes}
+          {/* wavy dazed mouth */}
+          <path d={`M${-4 * s},${mouthY + 2 * s} Q0,${mouthY} ${4 * s},${mouthY + 2 * s}`} stroke="#fff" strokeWidth="1.2" fill="none" />
+        </g>
+      );
+    default: // neutral
+      return (
+        <g>
+          {eyes}
+          {/* flat line mouth */}
+          <line x1={-4 * s} y1={mouthY + 2 * s} x2={4 * s} y2={mouthY + 2 * s} stroke="#fff" strokeWidth="1.2" />
+        </g>
+      );
+  }
+};
+
+// Crude ponytail / long hair for the girl figure
+const GirlHair = ({ scale = 1 }: { scale?: number }) => {
+  const s = scale;
+  return (
+    <g>
+      {/* top hair blob */}
+      <path
+        d={`M${-10 * s},${-10 * s} Q${-14 * s},${-20 * s} ${-6 * s},${-22 * s} Q0,${-26 * s} ${6 * s},${-22 * s} Q${14 * s},${-20 * s} ${10 * s},${-10 * s}`}
+        stroke="#fff" strokeWidth="2" fill="none"
+      />
+      {/* ponytail hanging down left side */}
+      <path
+        d={`M${-10 * s},${-10 * s} Q${-20 * s},${2 * s} ${-16 * s},${14 * s} Q${-14 * s},${20 * s} ${-18 * s},${26 * s}`}
+        stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round"
+      />
+    </g>
+  );
+};
+
 export const StickFigure = ({
   x = 0,
   y = 0,
   facing = 1,
   armAngle = 0,
   label,
+  mood = "neutral",
+  hair = false,
 }: {
   x?: number;
   y?: number;
   facing?: number;
   armAngle?: number;
   label?: string;
+  mood?: Mood;
+  hair?: boolean;
 }) => (
   <g transform={`translate(${x},${y}) scale(${facing},1)`}>
     <circle cx="0" cy="-52" r="12" stroke="#fff" strokeWidth="2.5" fill="none" />
+    {hair && <g transform="translate(0,-52)"><GirlHair /></g>}
+    <g transform="translate(0,-52)"><Face mood={mood} /></g>
     <line x1="0" y1="-40" x2="0" y2="-10" stroke="#fff" strokeWidth="2.5" />
     <line
       x1="0" y1="-32"
@@ -40,13 +218,19 @@ export const SwimmingFigure = ({
   x = 0,
   y = 0,
   facing = 1,
+  mood = "neutral",
+  hair = false,
 }: {
   x?: number;
   y?: number;
   facing?: number;
+  mood?: Mood;
+  hair?: boolean;
 }) => (
   <g transform={`translate(${x},${y}) scale(${facing},1)`}>
     <circle cx="0" cy="0" r="12" stroke="#fff" strokeWidth="2.5" fill="none" />
+    {hair && <g transform="translate(0,0)"><GirlHair scale={0.85} /></g>}
+    <g transform="translate(0,0)"><Face mood={mood} scale={0.85} /></g>
     <line x1="12" y1="0" x2="40" y2="0" stroke="#fff" strokeWidth="2.5" />
     <line x1="22" y1="0" x2="14" y2="-14" stroke="#fff" strokeWidth="2.5" />
     <line x1="28" y1="0" x2="36" y2="-14" stroke="#fff" strokeWidth="2.5" />
