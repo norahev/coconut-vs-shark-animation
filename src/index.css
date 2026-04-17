@@ -1,2 +1,3 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #111; }
+:focus, :focus-visible { outline: none; }

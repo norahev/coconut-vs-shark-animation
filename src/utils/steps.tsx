@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ComponentType } from "react";
+import { usePortrait } from "./portraitContext";
 import {
   StickFigure,
   SwimmingFigure,
@@ -17,91 +18,80 @@ import {
 
 // ─── Step 0 ───────────────────────────────────────────────────────────────────
 
-const Step0 = () => (
-  <g>
-    <WavyWater y={260} width={800} />
-    <WavyWater y={290} width={800} />
-    <SwimmingFigure x={300} y={245} mood="worried" hair />
-    <ThoughtBubble x={260} y={140} w={90} h={55}>
-      <circle
-        cx="-24"
-        cy="-10"
-        r="14"
-        stroke="#fff"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <circle cx="-27" cy="-14" r="2" fill="#fff" />
-      <circle cx="-21" cy="-14" r="2" fill="#fff" />
-      <path
-        d="M-29,-4 Q-24,-1 -19,-4"
-        stroke="#fff"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <g transform="translate(18,-8) scale(0.38)">
-        <Shark />
-      </g>
-    </ThoughtBubble>
-    <text
-      x="400"
-      y="430"
-      textAnchor="middle"
-      fill="#555"
-      fontSize="16"
-      fontFamily="monospace"
-    >
-      Click to continue →
-    </text>
-  </g>
-);
+const Step0 = () => {
+  const portrait = usePortrait();
+  const sx = portrait ? 190 : 300;
+  const sy = portrait ? 345 : 245;
+  const tx = portrait ? 150 : 260;
+  const ty = portrait ? 215 : 140;
+  const w1y = portrait ? 360 : 260;
+  const w2y = portrait ? 390 : 290;
+  const ww = portrait ? 400 : 800;
+  const captionX = portrait ? 200 : 400;
+  const captionY = portrait ? 570 : 430;
+  return (
+    <g>
+      <WavyWater y={w1y} width={ww} />
+      <WavyWater y={w2y} width={ww} />
+      <SwimmingFigure x={sx} y={sy} mood="worried" hair />
+      <ThoughtBubble x={tx} y={ty} w={90} h={55}>
+        <circle cx="-24" cy="-10" r="14" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <circle cx="-27" cy="-14" r="2" fill="#fff" />
+        <circle cx="-21" cy="-14" r="2" fill="#fff" />
+        <path d="M-29,-4 Q-24,-1 -19,-4" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <g transform="translate(18,-8) scale(0.38)">
+          <Shark />
+        </g>
+      </ThoughtBubble>
+      <text x={captionX} y={captionY} textAnchor="middle" fill="#555" fontSize="16" fontFamily="monospace">
+        Click to continue →
+      </text>
+    </g>
+  );
+};
 
 // ─── Step 1 ───────────────────────────────────────────────────────────────────
 
-const Step1 = () => (
-  <g>
-    <rect
-      x="270"
-      y="310"
-      width="180"
-      height="10"
-      stroke="#fff"
-      strokeWidth="2"
-      fill="none"
-    />
-    <line x1="290" y1="320" x2="290" y2="360" stroke="#fff" strokeWidth="2" />
-    <line x1="430" y1="320" x2="430" y2="360" stroke="#fff" strokeWidth="2" />
-    <rect
-      x="310"
-      y="240"
-      width="100"
-      height="70"
-      stroke="#fff"
-      strokeWidth="2"
-      fill="none"
-    />
-    <line x1="360" y1="310" x2="360" y2="320" stroke="#fff" strokeWidth="2" />
-    <line x1="340" y1="320" x2="380" y2="320" stroke="#fff" strokeWidth="2" />
-    <text
-      x="360"
-      y="282"
-      textAnchor="middle"
-      fill="#fff"
-      fontSize="13"
-      fontFamily="monospace"
-    >
-      MALDIVES
-    </text>
-    <StickFigure x={280} y={295} label="me" mood="idea" hair />
-    <motion.g
-      initial={{ opacity: 0, scale: 0.4 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.4, type: "spring" }}
-    >
-      <Lightbulb x={280} y={190} />
-    </motion.g>
-  </g>
-);
+const Step1 = () => {
+  const portrait = usePortrait();
+  // desk/screen positions
+  const deskX = portrait ? 110 : 270;
+  const deskY = portrait ? 400 : 310;
+  const leg1X = portrait ? 130 : 290;
+  const leg2X = portrait ? 270 : 430;
+  const legY2 = portrait ? 445 : 360;
+  const screenX = portrait ? 150 : 310;
+  const screenY = portrait ? 330 : 240;
+  const screenCX = portrait ? 200 : 360;
+  const screenCY = portrait ? 372 : 282;
+  const connY2 = deskY + 10;
+  const barY = deskY + 10;
+  const figX = portrait ? 185 : 280;
+  const figY = portrait ? 388 : 295;
+  const bulbX = figX;
+  const bulbY = portrait ? 283 : 190;
+  return (
+    <g>
+      <rect x={deskX} y={deskY} width="180" height="10" stroke="#fff" strokeWidth="2" fill="none" />
+      <line x1={leg1X} y1={deskY + 10} x2={leg1X} y2={legY2} stroke="#fff" strokeWidth="2" />
+      <line x1={leg2X} y1={deskY + 10} x2={leg2X} y2={legY2} stroke="#fff" strokeWidth="2" />
+      <rect x={screenX} y={screenY} width="100" height="70" stroke="#fff" strokeWidth="2" fill="none" />
+      <line x1={screenCX} y1={screenY + 70} x2={screenCX} y2={connY2} stroke="#fff" strokeWidth="2" />
+      <line x1={screenCX - 20} y1={barY} x2={screenCX + 20} y2={barY} stroke="#fff" strokeWidth="2" />
+      <text x={screenCX} y={screenCY} textAnchor="middle" fill="#fff" fontSize="13" fontFamily="monospace">
+        MALDIVES
+      </text>
+      <StickFigure x={figX} y={figY} label="me" mood="idea" hair />
+      <motion.g
+        initial={{ opacity: 0, scale: 0.4 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.4, type: "spring" }}
+      >
+        <Lightbulb x={bulbX} y={bulbY} />
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Toggling icon (used in Step 2) ──────────────────────────────────────────
 
@@ -140,220 +130,180 @@ const TogglingHeadIcon = () => {
 
 // ─── Step 2 ───────────────────────────────────────────────────────────────────
 
-const Step2 = () => (
-  <g>
-    <StickFigure x={220} y={310} label="me" mood="happy" hair />
-    <ThoughtBubble x={255} y={170} w={130} h={85}>
-      <g transform="translate(0,-12)">
-        <TogglingHeadIcon />
-      </g>
-    </ThoughtBubble>
-    <motion.g
-      animate={{ x: [0, -3, 3, -3, 3, 0] }}
-      transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
-    >
-      <StickFigure x={480} y={310} facing={-1} label="hubby" mood="afraid" />
-    </motion.g>
-  </g>
-);
+const Step2 = () => {
+  const portrait = usePortrait();
+  const girlX = portrait ? 130 : 220;
+  const girlY = portrait ? 420 : 310;
+  const tbX = portrait ? 165 : 255;
+  const tbY = portrait ? 280 : 170;
+  const guyX = portrait ? 270 : 480;
+  return (
+    <g>
+      <StickFigure x={girlX} y={girlY} label="me" mood="happy" hair />
+      <ThoughtBubble x={tbX} y={tbY} w={130} h={85}>
+        <g transform="translate(0,-12)">
+          <TogglingHeadIcon />
+        </g>
+      </ThoughtBubble>
+      <motion.g
+        animate={{ x: [0, -3, 3, -3, 3, 0] }}
+        transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
+      >
+        <StickFigure x={guyX} y={girlY} facing={-1} label="hubby" mood="afraid" />
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Step 3 ───────────────────────────────────────────────────────────────────
 
-const Step3 = () => (
-  <g>
-    <StickFigure x={220} y={310} label="me" mood="idea" hair />
-    <motion.g
-      initial={{ opacity: 0, scale: 0.3 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: "spring", delay: 0.2 }}
-    >
-      <Lightbulb x={220} y={203} />
-    </motion.g>
-    <motion.g
-      animate={{ x: [0, -3, 3, -3, 3, 0] }}
-      transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
-    >
-      <StickFigure x={480} y={310} facing={-1} label="hubby" mood="afraid" />
-    </motion.g>
-  </g>
-);
+const Step3 = () => {
+  const portrait = usePortrait();
+  const girlX = portrait ? 130 : 220;
+  const girlY = portrait ? 420 : 310;
+  const bulbX = portrait ? 130 : 220;
+  const bulbY = portrait ? 310 : 203;
+  const guyX = portrait ? 270 : 480;
+  return (
+    <g>
+      <StickFigure x={girlX} y={girlY} label="me" mood="idea" hair />
+      <motion.g
+        initial={{ opacity: 0, scale: 0.3 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: "spring", delay: 0.2 }}
+      >
+        <Lightbulb x={bulbX} y={bulbY} />
+      </motion.g>
+      <motion.g
+        animate={{ x: [0, -3, 3, -3, 3, 0] }}
+        transition={{ duration: 0.4, repeat: Infinity, ease: "linear" }}
+      >
+        <StickFigure x={guyX} y={girlY} facing={-1} label="hubby" mood="afraid" />
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Step 4 ───────────────────────────────────────────────────────────────────
 
-const Step4 = () => (
-  <g>
-    <PalmTree x={200} y={390} />
-    <StickFigure x={220} y={375} mood="dazed" hair />
-    <motion.g
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeIn", delay: 0.3 }}
-    >
-      <Coconut x={218} y={300} />
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.9, duration: 0.3 }}
-    >
-      {/* Orbit center above the head — rx=22 ry=7 gives a flat 3-D halo */}
-      <g transform="translate(220,308)">
-        {/* Star 1 — 0° start */}
-        <motion.text
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill="#ff0"
-          fontSize="11"
-          animate={{
-            x: [22, 19, 11, 0, -11, -19, -22, -19, -11, 0, 11, 19, 22],
-            y: [0, 4, 6, 7, 6, 4, 0, -4, -6, -7, -6, -4, 0],
-          }}
-          transition={{
-            duration: 1.8,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 0.9,
-          }}
-        >
-          ✦
-        </motion.text>
-        {/* Star 2 — 120° start */}
-        <motion.text
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill="#ff0"
-          fontSize="11"
-          animate={{
-            x: [-11, -19, -22, -19, -11, 0, 11, 19, 22, 19, 11, 0, -11],
-            y: [6, 4, 0, -4, -6, -7, -6, -4, 0, 4, 6, 7, 6],
-          }}
-          transition={{
-            duration: 1.8,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 0.9,
-          }}
-        >
-          ✦
-        </motion.text>
-        {/* Star 3 — 240° start */}
-        <motion.text
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill="#ff0"
-          fontSize="11"
-          animate={{
-            x: [-11, 0, 11, 19, 22, 19, 11, 0, -11, -19, -22, -19, -11],
-            y: [-6, -7, -6, -4, 0, 4, 6, 7, 6, 4, 0, -4, -6],
-          }}
-          transition={{
-            duration: 1.8,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 0.9,
-          }}
-        >
-          ✦
-        </motion.text>
-      </g>
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0, x: 40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.5, duration: 0.5 }}
-    >
-      <g transform="translate(455,390) scale(1.4)">
-        <BarChart x={0} y={0} />
-      </g>
-      <text
-        x="539"
-        y="228"
-        textAnchor="middle"
-        fill="#aaa"
-        fontSize="14"
-        fontFamily="monospace"
+const Step4 = () => {
+  const portrait = usePortrait();
+  const palmX = portrait ? 80 : 200;
+  const palmY = portrait ? 490 : 390;
+  const figX = portrait ? 100 : 220;
+  const figY = portrait ? 475 : 375;
+  const coconutX = portrait ? 98 : 218;
+  const coconutY = portrait ? 400 : 300;
+  // star halo center: head = figY - 52, halo 15px above head
+  const starCX = figX;
+  const starCY = figY - 52 - 15;
+  const chartTranslate = portrait ? `translate(210,490) scale(1.2)` : `translate(455,390) scale(1.4)`;
+  const chartLabelX = portrait ? 280 : 539;
+  const chartLabelY = portrait ? 330 : 228;
+  return (
+    <g>
+      <PalmTree x={palmX} y={palmY} />
+      <StickFigure x={figX} y={figY} mood="dazed" hair />
+      <motion.g
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeIn", delay: 0.3 }}
       >
-        Death by...
-      </text>
-    </motion.g>
-  </g>
-);
+        <Coconut x={coconutX} y={coconutY} />
+      </motion.g>
+      <motion.g
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9, duration: 0.3 }}
+      >
+        {/* Orbit center above the head — rx=22 ry=7 gives a flat 3-D halo */}
+        <g transform={`translate(${starCX},${starCY})`}>
+          <motion.text textAnchor="middle" dominantBaseline="central" fill="#ff0" fontSize="11"
+            animate={{ x: [22,19,11,0,-11,-19,-22,-19,-11,0,11,19,22], y: [0,4,6,7,6,4,0,-4,-6,-7,-6,-4,0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "linear", delay: 0.9 }}
+          >✦</motion.text>
+          <motion.text textAnchor="middle" dominantBaseline="central" fill="#ff0" fontSize="11"
+            animate={{ x: [-11,-19,-22,-19,-11,0,11,19,22,19,11,0,-11], y: [6,4,0,-4,-6,-7,-6,-4,0,4,6,7,6] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "linear", delay: 0.9 }}
+          >✦</motion.text>
+          <motion.text textAnchor="middle" dominantBaseline="central" fill="#ff0" fontSize="11"
+            animate={{ x: [-11,0,11,19,22,19,11,0,-11,-19,-22,-19,-11], y: [-6,-7,-6,-4,0,4,6,7,6,4,0,-4,-6] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "linear", delay: 0.9 }}
+          >✦</motion.text>
+        </g>
+      </motion.g>
+      <motion.g
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <g transform={chartTranslate}>
+          <BarChart x={0} y={0} />
+        </g>
+        <text x={chartLabelX} y={chartLabelY} textAnchor="middle" fill="#aaa" fontSize="14" fontFamily="monospace">
+          Death by...
+        </text>
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Step 5 ───────────────────────────────────────────────────────────────────
 
-const Step5 = () => (
-  <g>
-    <StickFigure
-      x={220}
-      y={340}
-      label="me"
-      mood="explaining"
-      armAngle={-30}
-      hair
-    />
-    <ThoughtBubble x={220} y={200} w={130} h={90}>
-      <g transform="translate(-30,10) scale(0.35)">
-        <PalmTree x={0} y={0} />
-      </g>
-      <g transform="translate(10,-20) scale(0.32)">
-        <BarChart x={0} y={0} />
-      </g>
-    </ThoughtBubble>
-    <motion.g
-      initial={{ x: 3 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <StickFigure
-        x={490}
-        y={340}
-        facing={-1}
-        label="hubby"
-        mood="angry"
-        armAngle={-50}
-      />
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.5 }}
-    >
-      <line
-        x1="460"
-        y1="308"
-        x2="310"
-        y2="320"
-        stroke="#fff"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
-    >
-      <ThoughtBubble x={560} y={240} w={50} h={36}>
-        <Coconut x={0} y={-10} />
-      </ThoughtBubble>
-    </motion.g>
-    <motion.g
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.65 }}
-    >
-      <ThoughtBubble x={620} y={185} w={50} h={36}>
-        <g transform="translate(-4,-10) scale(0.42)">
-          <Shark />
+const Step5 = () => {
+  const portrait = usePortrait();
+  const girlX = portrait ? 130 : 220;
+  const girlY = portrait ? 430 : 340;
+  const tbX = portrait ? 130 : 220;
+  const tbY = portrait ? 275 : 200;
+  const guyX = portrait ? 270 : 490;
+  // pointing line
+  const lineX1 = portrait ? 240 : 460;
+  const lineY1 = portrait ? girlY - 32 : 308;
+  const lineX2 = portrait ? 170 : 310;
+  const lineY2 = portrait ? girlY - 20 : 320;
+  // thought bubbles above hubby
+  const tb1X = portrait ? 320 : 560;
+  const tb1Y = portrait ? 335 : 240;
+  const tb2X = portrait ? 360 : 620;
+  const tb2Y = portrait ? 275 : 185;
+  return (
+    <g>
+      <StickFigure x={girlX} y={girlY} label="me" mood="explaining" armAngle={-30} hair />
+      <ThoughtBubble x={tbX} y={tbY} w={130} h={90}>
+        <g transform="translate(-30,10) scale(0.35)">
+          <PalmTree x={0} y={0} />
+        </g>
+        <g transform="translate(10,-20) scale(0.32)">
+          <BarChart x={0} y={0} />
         </g>
       </ThoughtBubble>
-    </motion.g>
-  </g>
-);
+      <motion.g initial={{ x: 3 }} animate={{ x: 0 }} transition={{ duration: 0.3 }}>
+        <StickFigure x={guyX} y={girlY} facing={-1} label="hubby" mood="angry" armAngle={-50} />
+      </motion.g>
+      <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+        <line x1={lineX1} y1={lineY1} x2={lineX2} y2={lineY2} stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+      </motion.g>
+      <motion.g initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+        <ThoughtBubble x={tb1X} y={tb1Y} w={50} h={36}>
+          <Coconut x={0} y={-10} />
+        </ThoughtBubble>
+      </motion.g>
+      <motion.g initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}>
+        <ThoughtBubble x={tb2X} y={tb2Y} w={50} h={36}>
+          <g transform="translate(-4,-10) scale(0.42)">
+            <Shark />
+          </g>
+        </ThoughtBubble>
+      </motion.g>
+    </g>
+  );
+};
 
 // ─── Step 6 ───────────────────────────────────────────────────────────────────
 
 const Step6 = () => {
+  const portrait = usePortrait();
   const [phase, setPhase] = useState<0 | 1 | 2>(0);
 
   useEffect(() => {
@@ -368,31 +318,49 @@ const Step6 = () => {
   const mood: "happy" | "surprised" | "terrified" =
     phase === 0 ? "happy" : phase === 1 ? "surprised" : "terrified";
 
+  // landscape vs portrait positions
+  const w1y = portrait ? 360 : 290;
+  const w2y = portrait ? 385 : 315;
+  const ww = portrait ? 400 : 900;
+  const girlX = portrait ? 130 : 280;
+  const girlY = portrait ? 340 : 270;
+  const guyX = portrait ? 210 : 380;
+  const guyY = portrait ? 338 : 268;
+  const fleeX = portrait ? -400 : -900;
+  // fish: base position + phase offsets
+  const fishBaseX = portrait ? 350 : 750;
+  const fishY = portrait ? 345 : 280;
+  const fishPhase0X = portrait ? 200 : 400;
+  const fishPhase1X = portrait ? -100 : -150;
+  const fishPhase2X = portrait ? -150 : -350;
+  const captionX = portrait ? 200 : 400;
+  const captionY = portrait ? 560 : 420;
+
   return (
     <g>
-      <WavyWater y={290} width={900} />
-      <WavyWater y={315} width={900} />
+      <WavyWater y={w1y} width={ww} />
+      <WavyWater y={w2y} width={ww} />
 
       {/* Girl swimmer */}
       <motion.g
-        animate={{ x: phase === 2 ? -900 : 0 }}
+        animate={{ x: phase === 2 ? fleeX : 0 }}
         transition={{ duration: 2.5, ease: "easeIn" }}
       >
-        <SwimmingFigure x={280} y={270} facing={-1} mood={mood} hair />
+        <SwimmingFigure x={girlX} y={girlY} facing={-1} mood={mood} hair />
       </motion.g>
 
       {/* Guy swimmer */}
       <motion.g
-        animate={{ x: phase === 2 ? -900 : 0 }}
+        animate={{ x: phase === 2 ? fleeX : 0 }}
         transition={{ duration: 2.2, ease: "easeIn" }}
       >
-        <SwimmingFigure x={380} y={268} facing={-1} mood={mood} />
+        <SwimmingFigure x={guyX} y={guyY} facing={-1} mood={mood} />
       </motion.g>
 
-      {/* Triggerfish — starts off-screen right, enters on phase 1, floats on phase 2 */}
+      {/* Triggerfish */}
       <motion.g
         animate={{
-          x: phase === 0 ? 400 : phase === 1 ? -150 : -350,
+          x: phase === 0 ? fishPhase0X : phase === 1 ? fishPhase1X : fishPhase2X,
         }}
         transition={{
           duration: phase === 0 ? 0 : phase === 1 ? 1.5 : 2,
@@ -407,7 +375,7 @@ const Step6 = () => {
               : {}
           }
         >
-          <AngryFish x={750} y={280} />
+          <AngryFish x={fishBaseX} y={fishY} />
         </motion.g>
       </motion.g>
 
@@ -415,14 +383,7 @@ const Step6 = () => {
         animate={{ opacity: phase >= 1 ? 1 : 0 }}
         transition={{ duration: 0.6 }}
       >
-        <text
-          x="400"
-          y="420"
-          textAnchor="middle"
-          fill="#555"
-          fontSize="14"
-          fontFamily="monospace"
-        >
+        <text x={captionX} y={captionY} textAnchor="middle" fill="#555" fontSize="14" fontFamily="monospace">
           Triggerfish: `Didn't she say I was coming?!`
         </text>
       </motion.g>

@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SCENES, LABELS } from "./utils/steps";
+import { PortraitContext } from "./utils/portraitContext";
 
 export default function SceneManager() {
   const [step, setStep] = useState(0);
   const [sceneKey, setSceneKey] = useState(0);
+  const [portrait, setPortrait] = useState(
+    () => window.innerWidth < window.innerHeight
+  );
+
+  useEffect(() => {
+    const update = () => setPortrait(window.innerWidth < window.innerHeight);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const advance = () => {
     if (step < SCENES.length - 1) {
@@ -21,6 +31,7 @@ export default function SceneManager() {
   const Scene = SCENES[step];
 
   return (
+    <PortraitContext.Provider value={portrait}>
     <div
       onClick={advance}
       style={{
@@ -36,7 +47,7 @@ export default function SceneManager() {
       }}
     >
       <svg
-        viewBox="0 0 800 500"
+        viewBox={portrait ? "0 0 400 600" : "0 0 800 500"}
         width="100%"
         height="100%"
         style={{ maxHeight: "100vh", maxWidth: "100vw" }}
@@ -53,22 +64,32 @@ export default function SceneManager() {
           </motion.g>
         </AnimatePresence>
 
-        <text
-          x="400"
-          y="24"
-          textAnchor="middle"
-          fill="#444"
-          fontSize="11"
-          fontFamily="monospace"
+        <foreignObject
+          x={portrait ? 10 : 20}
+          y={4}
+          width={portrait ? 380 : 760}
+          height={portrait ? 52 : 28}
         >
-          {LABELS[step]}
-        </text>
+          <div
+            style={{
+              textAlign: "center",
+              color: "#444",
+              fontSize: portrait ? "13px" : "11px",
+              fontFamily: "monospace",
+              lineHeight: "1.4",
+              padding: "0 8px",
+              wordBreak: "break-word",
+            }}
+          >
+            {LABELS[step]}
+          </div>
+        </foreignObject>
 
         {SCENES.map((_, i) => (
           <circle
             key={i}
-            cx={400 - (SCENES.length - 1) * 8 + i * 16}
-            cy="485"
+            cx={(portrait ? 200 : 400) - (SCENES.length - 1) * 8 + i * 16}
+            cy={portrait ? "585" : "485"}
             r="4"
             fill={i === step ? "#fff" : "#444"}
             style={{ cursor: "pointer" }}
@@ -77,5 +98,6 @@ export default function SceneManager() {
         ))}
       </svg>
     </div>
+    </PortraitContext.Provider>
   );
 }
