@@ -162,7 +162,7 @@ const StepIntro = () => {
           x={ctaX}
           y={ctaY}
           textAnchor="middle"
-          fill="#555"
+          fill="#cdcbcb"
           fontSize="16"
           fontFamily="monospace"
         >
@@ -704,7 +704,7 @@ const Step6 = () => {
           x={captionX}
           y={captionY}
           textAnchor="middle"
-          fill="#555"
+          fill="#cdcbcb"
           fontSize="14"
           fontFamily="monospace"
         >
